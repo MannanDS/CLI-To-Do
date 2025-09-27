@@ -5,16 +5,12 @@
 #define MAX_TASKS 100
 #define MAX_LEN 100
 
-// Define a structure for a task
 typedef struct {
     char name[MAX_LEN];
 } Task;
 
-// Array of tasks
 Task tasks[MAX_TASKS];
 int taskCount = 0;
-
-// Function to add a task
 
 void Add_Task(const char *taskName) {
     if (taskCount >= MAX_TASKS) {
@@ -27,21 +23,16 @@ void Add_Task(const char *taskName) {
     printf("Task added: %s\n", taskName);
 }
 
-// Function to list all tasks
-
-void List_all_Tasks(){
+void List_all_Tasks() {
     if (taskCount == 0) {
         printf("No tasks found.\n");
         return;
     }
-
     printf("Tasks:\n");
     for (int i = 0; i < taskCount; i++) {
         printf("%d. %s\n", i + 1, tasks[i].name);
     }
 }
-
-// Function to Delete a task
 
 void Delete_Task(int index) {
     if (index < 1 || index > taskCount) {
@@ -49,15 +40,11 @@ void Delete_Task(int index) {
         return;
     }
     printf("Deleted task: %s\n", tasks[index - 1].name);
-    
-    // Shift tasks left
     for (int i = index - 1; i < taskCount - 1; i++) {
         tasks[i] = tasks[i + 1];
     }
     taskCount--;
 }
-
-// Main C0de
 
 int main(void) {
     printf(
@@ -68,17 +55,23 @@ int main(void) {
         "                                                 |___/            \n"
     );
 
-    int choice;
+    char input[20], name[MAX_LEN];
     int exitFlag = 0;
-    char name[MAX_LEN];
 
-    while (exitFlag == 0) {
+    while (!exitFlag) {
         printf("\n1. Add Task\n");
         printf("2. Delete Task\n");
         printf("3. List Tasks\n");
         printf("4. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+
+        scanf("%s", input);           
+        int choice = atoi(input);     
+        
+        if (choice < 1 || choice > 4) {
+            printf("Invalid input! Please enter a number 1-4.\n");
+            continue;
+        }
 
         switch(choice) {
             case 1:
@@ -86,14 +79,12 @@ int main(void) {
                 scanf("%s", name);
                 Add_Task(name);
                 break;
-            case 2: {
+            case 2:
                 List_all_Tasks();
-                int delIndex;
                 printf("Enter task number to delete: ");
-                scanf("%d", &delIndex);
-                Delete_Task(delIndex);
+                scanf("%s", input);
+                Delete_Task(atoi(input));
                 break;
-            }
             case 3:
                 List_all_Tasks();
                 break;
@@ -101,8 +92,6 @@ int main(void) {
                 exitFlag = 1;
                 printf("Exiting...\n");
                 break;
-            default:
-                printf("Invalid choice!\n");
         }
     }
 
